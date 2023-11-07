@@ -355,8 +355,8 @@ void render(const PragueSkyModel&            model,
             }
 
             // Convert the spectral quantity to sRGB and store it at 0 in the result buffer.
-            const Vector3 rgb                                  = spectrumToRGB(spectrum);
-            outResult[0][(size_t(x) * resolution + y) * 3]     = float(rgb.x);
+            const Vector3 rgb                                  = spectrumToRGB(spectrum);       // OrResult[0] is three times longer than the CHANNELS vectors that come after. 
+            outResult[0][(size_t(x) * resolution + y) * 3]     = float(rgb.x);                  // Each point is actuall made of 3 elements: an r,g & b value
             outResult[0][(size_t(x) * resolution + y) * 3 + 1] = float(rgb.y);
             outResult[0][(size_t(x) * resolution + y) * 3 + 2] = float(rgb.z);
             
