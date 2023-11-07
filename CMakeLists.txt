@@ -66,6 +66,7 @@ set(CMAKE_CXX_FLAGS "-DNDEBUG")
 # Command-line version
 
 find_package(TBB REQUIRED)
+find_package(HDF5 REQUIRED)
 
 set(PRAGUESKYMODEL_SRC
     thirdparty/miniz/miniz.c
@@ -78,8 +79,8 @@ add_executable(PragueSkyModelCli ${PRAGUESKYMODEL_SRC})
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/miniz)
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/tinyexr)
-
-target_link_libraries(PragueSkyModelCli PRIVATE TBB::tbb)
+target_include_directories(PragueSkyModelCli PRIVATE ${HDF5_INCLUDE_DIR})
+target_link_libraries(PragueSkyModelCli PRIVATE TBB::tbb ${HDF5_C_LIBRARIES})
 
 # GUI version
 

@@ -367,7 +367,7 @@ void PragueSkyModel::readRadiance(FILE* handle, const double singleVisibility) {
             visibilitiesRad[0] = visibilitiesRadInFile[visIdx - 1];
             visibilitiesRad[1] = visibilitiesRadInFile[visIdx];
             skippedVisibilities = visIdx - 1;
-        }        
+        }
     }
 
     int albedoCount = 0;
@@ -472,10 +472,15 @@ void PragueSkyModel::readRadiance(FILE* handle, const double singleVisibility) {
     // Read data.
 
     // Structure of the data part of the data file:
-    // [[[[[[ sunCoefsRad       (sunBreaksCountRad * half), zenithScale (1 * double), 
-    //        zenithCoefsRad (zenithBreaksCountRad * half) ] * rankRad, 
-    //        emphCoefsRad     (emphBreaksCountRad * half) ]
-    //  * channels ] * elevationCount ] * altitudeCount ] * albedoCount ] * visibilityCount
+
+    // [[[[[[   sunCoefsRad       (sunBreaksCountRad * half), zenithScale (1 * double), zenithCoefsRad (zenithBreaksCountRad * half) ] * rankRad, 
+    //          emphCoefsRad     (emphBreaksCountRad * half) ] 
+    //          * channels ] 
+    //          * elevationCount ] 
+    //          * altitudeCount ] 
+    //          * albedoCount ] 
+    //          * visibilityCount
+
 
     int offset = 0;
     dataRad.resize(metadataRad.totalCoefsAllConfigs);
@@ -611,6 +616,7 @@ void PragueSkyModel::readPolarisation(FILE* handle) {
     size_t valsRead;
 
     valsRead = fread(&metadataPol.rank, sizeof(int), 1, handle);
+    std::cout << metadataPol.rank << std::endl;
     if (valsRead != 1) {
         // Polarisation dataset not present
         metadataPol.rank = 0;
@@ -655,11 +661,15 @@ void PragueSkyModel::readPolarisation(FILE* handle) {
     metadataPol.totalCoefsAllConfigs = metadataPol.totalCoefsSingleConfig * totalConfigs;
 
     // Read data.
-
     // Structure of the data part of the data file:
-    // [[[[[[ sunCoefsPol       (sunBreaksCountPol * float), 
-    //        zenithCoefsPol (zenithBreaksCountPol * float) ] * rankPol] 
-    // * channels ] * elevationCount ] * altitudeCount ] * albedoCount ] * visibilityCount
+    // -----------------------------------------------
+    // [[[[[[ sunCoefsPol  (sunBreaksCountPol * float), zenithCoefsPol (zenithBreaksCountPol * float) ]     // Are these values of polarisation at each coordinate location in the sky dome (?)... for each...
+    //              * rankPol]              // ???
+    //              * channels ]            // For each of the wavelength channels
+    //              * elevationCount ]      // For each solar elevation
+    //              * altitudeCount ]       // For each observer altitude
+    //              * albedoCount ]         // For each ground albedo value
+    //              * visibilityCount       // For each viewing distance
 
     size_t offset = 0;
     dataPol.resize(metadataPol.totalCoefsAllConfigs);
