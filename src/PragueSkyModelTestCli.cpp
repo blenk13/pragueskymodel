@@ -17,7 +17,6 @@
 
 // For CLI
 #include <iostream>
-#include <morph/HdfData.h>
 
 #include "PragueSkyModelTest.h"
 
@@ -130,9 +129,6 @@ int main(int argc, char* argv[]) {
             FreeEXRErrorMessage(err); // Frees buffer for an error message
             throw message.c_str();
         }
-
-        // Save the result buffer into an hdf5
-
 
         std::cout << "Done\n";
         return 0;

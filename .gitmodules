@@ -1,0 +1,3 @@
+[submodule "thirdparty/morphologica"]
+	path = thirdparty/morphologica
+	url = https://github.com/blenk13/morphologica.git

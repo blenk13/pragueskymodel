@@ -8,6 +8,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <morph/HdfData.h>
 
 #include "PragueSkyModel.h"
 
@@ -359,12 +360,20 @@ void render(const PragueSkyModel&            model,
             outResult[0][(size_t(x) * resolution + y) * 3]     = float(rgb.x);                  // Each point is actuall made of 3 elements: an r,g & b value
             outResult[0][(size_t(x) * resolution + y) * 3 + 1] = float(rgb.y);
             outResult[0][(size_t(x) * resolution + y) * 3 + 2] = float(rgb.z);
-            
+
+
             // Store the individual channels.
             for (int c = 1; c < SPECTRUM_CHANNELS + 1; c++) {
                 outResult[c][(size_t(x) * resolution + y)] = float(spectrum[c - 1]);
             }
         }
     }
+                
+            {
+                std::cout << "SAVING hdf5 FILE." << std::endl;
+                std::vector<float> rgb_vals = outResult[0];
+                morph::HdfData data("test_rgb.h5");                 // Default file access is FileAccess::TruncateWrite
+                data.add_contained_vals ("/rgb_values", rgb_vals);
+            }                                                       // rgb_vals closes when out of scope
 #endif
 }

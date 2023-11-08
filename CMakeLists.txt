@@ -61,7 +61,7 @@ target_link_libraries(PragueSkyModelGui PRIVATE d3d11.lib)
 # Linux
 else()
 
-set(CMAKE_CXX_FLAGS "-DNDEBUG")
+#set(CMAKE_CXX_FLAGS "-DNDEBUG")
 
 # Command-line version
 
@@ -79,7 +79,9 @@ add_executable(PragueSkyModelCli ${PRAGUESKYMODEL_SRC})
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/miniz)
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/tinyexr)
+target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/morphologica)
 target_include_directories(PragueSkyModelCli PRIVATE ${HDF5_INCLUDE_DIR})
+
 target_link_libraries(PragueSkyModelCli PRIVATE TBB::tbb ${HDF5_C_LIBRARIES})
 
 # GUI version
@@ -88,6 +90,7 @@ set(OpenGL_GL_PREFERENCE GLVND)
 
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
+find_package(HDF5 REQUIRED)
 
 set(PRAGUESKYMODELGUI_SRC
     thirdparty/miniz/miniz.c
@@ -108,12 +111,15 @@ target_include_directories(PragueSkyModelGui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 target_include_directories(PragueSkyModelGui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui)
 target_include_directories(PragueSkyModelGui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/backends)
 target_include_directories(PragueSkyModelGui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/tinyexr)
+target_include_directories(PragueSkyModelGui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/morphologica)
 target_include_directories(PragueSkyModelGui PRIVATE ${OPENGL_INCLUDE_DIRS})
 target_include_directories(PragueSkyModelGui PRIVATE ${SDL2_INCLUDE_DIRS})
+target_include_directories(PragueSkyModelGui PRIVATE ${HDF5_INCLUDE_DIR})
 
 target_link_libraries(PragueSkyModelGui PRIVATE ${OPENGL_LIBRARIES})
 target_link_libraries(PragueSkyModelGui PRIVATE ${SDL2_LIBRARIES})
 target_link_libraries(PragueSkyModelGui PRIVATE TBB::tbb)
 target_link_libraries(PragueSkyModelGui PRIVATE ${CMAKE_DL_LIBS})
+target_link_libraries(PragueSkyModelGui PRIVATE TBB::tbb ${HDF5_C_LIBRARIES})
 
 endif()

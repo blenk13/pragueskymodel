@@ -616,7 +616,6 @@ void PragueSkyModel::readPolarisation(FILE* handle) {
     size_t valsRead;
 
     valsRead = fread(&metadataPol.rank, sizeof(int), 1, handle);
-    std::cout << metadataPol.rank << std::endl;
     if (valsRead != 1) {
         // Polarisation dataset not present
         metadataPol.rank = 0;
