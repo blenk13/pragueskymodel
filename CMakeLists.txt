@@ -65,8 +65,19 @@ else()
 
 # Command-line version
 
+set(OpenGL_GL_PREFERENCE "GLVND")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGL3_PROTOTYPES -DGL_GLEXT_PROTOTYPES")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__GLN__")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DMORPH_FONTS_DIR=\"\\\"${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/morphologica/fonts\\\"\"")
+set(MORPH_INCLUDE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/morphologica" CACHE PATH "The path to morphologica")
+set(MORPH_INC_CORE ${HDF5_INCLUDE_DIR})
+set(MORPH_INC_GL ${OPENGL_INCLUDE_DIR} ${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIRS})
+
 find_package(TBB REQUIRED)
 find_package(HDF5 REQUIRED)
+find_package(Freetype REQUIRED) 
+find_package(OpenGL REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
 
 set(PRAGUESKYMODEL_SRC
     thirdparty/miniz/miniz.c
@@ -75,6 +86,7 @@ set(PRAGUESKYMODEL_SRC
 )
 
 add_executable(PragueSkyModelCli ${PRAGUESKYMODEL_SRC})
+add_executable(VisualiseSkyData src/VisualiseSkyData.cpp)
 
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/miniz)
@@ -82,7 +94,13 @@ target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 target_include_directories(PragueSkyModelCli PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/morphologica)
 target_include_directories(PragueSkyModelCli PRIVATE ${HDF5_INCLUDE_DIR})
 
+target_include_directories(VisualiseSkyData PRIVATE ${MORPH_INCLUDE_PATH})
+target_include_directories(VisualiseSkyData PRIVATE ${MORPH_INCLUDE_PATH}/include)
+target_include_directories(VisualiseSkyData PRIVATE ${MORPH_INC_CORE})
+target_include_directories(VisualiseSkyData PRIVATE ${MORPH_INC_GL})
+
 target_link_libraries(PragueSkyModelCli PRIVATE TBB::tbb ${HDF5_C_LIBRARIES})
+target_link_libraries(VisualiseSkyData OpenGL::GL glfw Freetype::Freetype)
 
 # GUI version
 

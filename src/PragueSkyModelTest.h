@@ -368,12 +368,13 @@ void render(const PragueSkyModel&            model,
             }
         }
     }
-                
-            {
-                std::cout << "SAVING hdf5 FILE." << std::endl;
-                std::vector<float> rgb_vals = outResult[0];
-                morph::HdfData data("test_rgb.h5");                 // Default file access is FileAccess::TruncateWrite
-                data.add_contained_vals ("/rgb_values", rgb_vals);
-            }                                                       // rgb_vals closes when out of scope
+        
+    {
+        std::cout << "SAVING hdf5 FILE." << std::endl;
+        std::vector<float> rgb_vals = outResult[0];
+        morph::HdfData data("../../../data/test_rgb_polarisation.h5");                 // Default file access is FileAccess::TruncateWrite
+        data.add_contained_vals ("/rgb_values", rgb_vals);
+    }      // rgb_vals closes when out of scope
+
 #endif
 }
